@@ -2,7 +2,7 @@
 
 
 class HTMLNode:
-    def __init__(self, tag=None,value=None, children=None, props=None):
+    def __init__(self, tag=None,value=None, children=[], props={}):
         self.tag = tag
         self.value = value
         self.children = children
@@ -12,7 +12,20 @@ class HTMLNode:
         raise NotImplementedError()
 
     def props_to_html(self):
-        pass
+        stringRes = ""
+        last_key = list(self.props)[-1]
+        
+        for key, val in self.props.items():
+            if key != last_key:
+                stringRes += f"{key}=\"{val}\" "
+            else:
+                stringRes += f"{key}=\"{val}\""
+
+        return stringRes
 
     def __repr__(self):
-        pass
+        return f"HTMLNODE({self.tag},{self.value},{self.children},{self.props})"
+
+
+node = HTMLNode("a", "I Love Apples", [],{"href":"https://www.google.com","target":"_blank"})
+node.to_html()
